@@ -55,7 +55,10 @@ public class AssetController {
 
     @GetMapping("/search")
     public ResponseEntity<List<Asset>> search(@RequestParam String q) {
-        return ResponseEntity.ok(assetService.search(q));
+        if (q == null || q.trim().isEmpty()) {
+            throw new IllegalArgumentException("Search query parameter 'q' must not be empty");
+        }
+        return ResponseEntity.ok(assetService.search(q.trim()));
     }
 
     @GetMapping("/{id}")
