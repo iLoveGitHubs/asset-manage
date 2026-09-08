@@ -1,0 +1,46 @@
+<h1 class="page-title">Assignments</h1>
+
+<div *ngIf="error" class="error-text">{{ error }}</div>
+<div *ngIf="loading" class="loading">Loading assignments...</div>
+
+<table *ngIf="!loading && assignments.length > 0">
+  <thead>
+    <tr>
+      <th>Asset Code</th>
+      <th>Asset Name</th>
+      <th>Assigned To</th>
+      <th>Assigned Date</th>
+      <th>Return Date</th>
+      <th>Status</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let a of assignments">
+      <td class="mono">{{ a.assetCode }}</td>
+      <td>{{ a.assetName }}</td>
+      <td>{{ a.assignedTo }}</td>
+      <td>{{ a.assignedDate | date: 'mediumDate' }}</td>
+      <td>{{ a.returnDate ? (a.returnDate | date: 'mediumDate') : '—' }}</td>
+      <td>
+        <span class="badge" [ngClass]="statusClass(a.status)">
+          {{ statusLabels[a.status] }}
+        </span>
+      </td>
+      <td>
+        <button
+          *ngIf="a.status === 'ASSIGNED'"
+          class="btn-secondary btn-sm"
+          (click)="returnAssignment(a)"
+        >
+          Return
+        </button>
+        <span *ngIf="a.status !== 'ASSIGNED'" class="muted">—</span>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<div *ngIf="!loading && assignments.length === 0 && !error" class="empty-state">
+  No assignments found.
+</div>

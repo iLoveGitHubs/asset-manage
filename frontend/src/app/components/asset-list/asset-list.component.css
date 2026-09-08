@@ -1,0 +1,53 @@
+.header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.search-bar {
+  margin-bottom: 16px;
+}
+
+.search-bar input {
+  max-width: 360px;
+}
+
+.loading,
+.empty-state {
+  background-color: #fff;
+  border-radius: 8px;
+  padding: 32px;
+  text-align: center;
+  color: #6b7280;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+.actions {
+  display: flex;
+  gap: 6px;
+  white-space: nowrap;
+}
+
+.actions a {
+  text-decoration: none;
+}
+
+.mono {
+  font-family: "Courier New", monospace;
+  font-weight: 600;
+}
+
+.pagination {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 16px;
+  flex-wrap: wrap;
+}
+
+.page-info {
+  margin-left: 12px;
+  color: #6b7280;
+  font-size: 13px;
+}

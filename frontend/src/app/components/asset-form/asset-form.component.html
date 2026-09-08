@@ -1,0 +1,85 @@
+<div class="card">
+  <h1 class="page-title">{{ isEdit ? 'Edit Asset' : 'New Asset' }}</h1>
+
+  <div *ngIf="loading" class="loading">Loading asset data...</div>
+  <div *ngIf="error" class="error-text">{{ error }}</div>
+
+  <form *ngIf="!loading" [formGroup]="form" (ngSubmit)="onSubmit()" class="asset-form">
+    <div class="form-grid">
+      <div class="form-group">
+        <label for="name">Name *</label>
+        <input id="name" type="text" formControlName="name" />
+        <div *ngIf="isInvalid('name')" class="error-text">
+          <span *ngIf="form.get('name')?.errors?.['required']">Name is required.</span>
+          <span *ngIf="form.get('name')?.errors?.['maxlength']">Name must be at most 200 characters.</span>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="code">Code *</label>
+        <input id="code" type="text" formControlName="code" placeholder="e.g. LAPTOP-001" />
+        <div *ngIf="isInvalid('code')" class="error-text">
+          <span *ngIf="form.get('code')?.errors?.['required']">Code is required.</span>
+          <span *ngIf="form.get('code')?.errors?.['pattern']">Use uppercase letters, numbers, and hyphens only.</span>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="status">Status *</label>
+        <select id="status" formControlName="status">
+          <option *ngFor="let opt of statusOptions" [value]="opt.value">{{ opt.label }}</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="categoryId">Category *</label>
+        <select id="categoryId" formControlName="categoryId">
+          <option value="" disabled>Select a category</option>
+          <option *ngFor="let cat of categories" [value]="cat.id">{{ cat.name }}</option>
+        </select>
+        <div *ngIf="isInvalid('categoryId')" class="error-text">Category is required.</div>
+      </div>
+
+      <div class="form-group">
+        <label for="purchaseDate">Purchase Date *</label>
+        <input id="purchaseDate" type="date" formControlName="purchaseDate" />
+        <div *ngIf="isInvalid('purchaseDate')" class="error-text">Purchase date is required.</div>
+      </div>
+
+      <div class="form-group">
+        <label for="usefulLifeYears">Useful Life (Years) *</label>
+        <input id="usefulLifeYears" type="number" formControlName="usefulLifeYears" min="1" max="50" />
+        <div *ngIf="isInvalid('usefulLifeYears')" class="error-text">
+          <span *ngIf="form.get('usefulLifeYears')?.errors?.['required']">Required.</span>
+          <span *ngIf="form.get('usefulLifeYears')?.errors?.['min']">Must be at least 1.</span>
+          <span *ngIf="form.get('usefulLifeYears')?.errors?.['max']">Must be at most 50.</span>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="purchaseValue">Purchase Value ($) *</label>
+        <input id="purchaseValue" type="number" formControlName="purchaseValue" min="0" step="0.01" />
+        <div *ngIf="isInvalid('purchaseValue')" class="error-text">
+          <span *ngIf="form.get('purchaseValue')?.errors?.['required']">Required.</span>
+          <span *ngIf="form.get('purchaseValue')?.errors?.['min']">Must be a positive value.</span>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="currentValue">Current Value ($) *</label>
+        <input id="currentValue" type="number" formControlName="currentValue" min="0" step="0.01" />
+        <div *ngIf="isInvalid('currentValue')" class="error-text">
+          <span *ngIf="form.get('currentValue')?.errors?.['required']">Required.</span>
+          <span *ngIf="form.get('currentValue')?.errors?.['min']">Must be a positive value.</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-actions">
+      <button type="submit" class="btn-primary" [disabled]="submitting">
+        {{ submitting ? 'Saving...' : (isEdit ? 'Update Asset' : 'Create Asset') }}
+      </button>
+      <button type="button" class="btn-secondary" (click)="onCancel()">Cancel</button>
+    </div>
+  </form>
+</div>

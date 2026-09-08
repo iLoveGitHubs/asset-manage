@@ -1,0 +1,90 @@
+<div class="header-row">
+  <h1 class="page-title">Asset Detail</h1>
+  <div class="header-actions">
+    <a routerLink="/assets" class="btn-secondary btn-sm">Back to List</a>
+    <a *ngIf="asset" [routerLink]="['/assets/edit', asset.id]" class="btn-primary btn-sm">Edit</a>
+  </div>
+</div>
+
+<div *ngIf="loading" class="loading">Loading asset...</div>
+<div *ngIf="error" class="error-text">{{ error }}</div>
+
+<div *ngIf="asset && !loading" class="detail-grid">
+  <div class="card">
+    <h2 class="section-title">General Information</h2>
+    <dl class="detail-list">
+      <div class="detail-row">
+        <dt>Code</dt>
+        <dd class="mono">{{ asset.code }}</dd>
+      </div>
+      <div class="detail-row">
+        <dt>Name</dt>
+        <dd>{{ asset.name }}</dd>
+      </div>
+      <div class="detail-row">
+        <dt>Status</dt>
+        <dd>
+          <span class="badge" [ngClass]="statusClass(asset.status)">
+            {{ statusLabels[asset.status] }}
+          </span>
+        </dd>
+      </div>
+      <div class="detail-row">
+        <dt>Category</dt>
+        <dd>{{ category ? category.name : 'N/A' }}</dd>
+      </div>
+      <div class="detail-row">
+        <dt>Purchase Date</dt>
+        <dd>{{ asset.purchaseDate | date: 'mediumDate' }}</dd>
+      </div>
+      <div class="detail-row">
+        <dt>Useful Life</dt>
+        <dd>{{ asset.usefulLifeYears }} years</dd>
+      </div>
+    </dl>
+  </div>
+
+  <div class="card">
+    <h2 class="section-title">Valuation</h2>
+    <dl class="detail-list">
+      <div class="detail-row">
+        <dt>Purchase Value</dt>
+        <dd>{{ formatCurrency(asset.purchaseValue) }}</dd>
+      </div>
+      <div class="detail-row">
+        <dt>Current Value</dt>
+        <dd>{{ formatCurrency(asset.currentValue) }}</dd>
+      </div>
+    </dl>
+  </div>
+
+  <div class="card" *ngIf="depreciation">
+    <h2 class="section-title">Depreciation</h2>
+    <dl class="detail-list">
+      <div class="detail-row">
+        <dt>Annual Depreciation</dt>
+        <dd>{{ formatCurrency(depreciation.annualDepreciation) }}</dd>
+      </div>
+      <div class="detail-row">
+        <dt>Accumulated Depreciation</dt>
+        <dd>{{ formatCurrency(depreciation.accumulatedDepreciation) }}</dd>
+      </div>
+      <div class="detail-row">
+        <dt>Years Elapsed</dt>
+        <dd>{{ depreciation.yearsElapsed }}</dd>
+      </div>
+      <div class="detail-row">
+        <dt>Remaining Life</dt>
+        <dd>{{ depreciation.remainingLife }} years</dd>
+      </div>
+      <div class="detail-row">
+        <dt>Fully Depreciated</dt>
+        <dd>
+          <span class="badge" [ngClass]="depreciation.fullyDepreciated ? 'badge-inactive' : 'badge-active'">
+            {{ depreciation.fullyDepreciated ? 'Yes' : 'No' }}
+          </span>
+        </dd>
+      </div>
+    </dl>
+  </div>
+</div>

@@ -1,0 +1,74 @@
+<div class="header-row">
+  <h1 class="page-title">Assets</h1>
+  <a routerLink="/assets/new" class="btn-primary">+ New Asset</a>
+</div>
+
+<div class="search-bar">
+  <input
+    type="text"
+    placeholder="Search by name or code..."
+    [(ngModel)]="searchTerm"
+    (ngModelChange)="onSearch()"
+  />
+</div>
+
+<div *ngIf="error" class="error-text">{{ error }}</div>
+
+<div *ngIf="loading" class="loading">Loading assets...</div>
+
+<table *ngIf="!loading && assets.length > 0">
+  <thead>
+    <tr>
+      <th>Code</th>
+      <th>Name</th>
+      <th>Status</th>
+      <th>Purchase Date</th>
+      <th>Purchase Value</th>
+      <th>Current Value</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let asset of assets">
+      <td class="mono">{{ asset.code }}</td>
+      <td>{{ asset.name }}</td>
+      <td>
+        <span class="badge" [ngClass]="statusClass(asset.status)">
+          {{ statusLabels[asset.status] }}
+        </span>
+      </td>
+      <td>{{ asset.purchaseDate | date: 'mediumDate' }}</td>
+      <td>{{ formatCurrency(asset.purchaseValue) }}</td>
+      <td>{{ formatCurrency(asset.currentValue) }}</td>
+      <td class="actions">
+        <a [routerLink]="['/assets', asset.id]" class="btn-secondary btn-sm">View</a>
+        <a [routerLink]="['/assets/edit', asset.id]" class="btn-primary btn-sm">Edit</a>
+        <button class="btn-danger btn-sm" (click)="deleteAsset(asset)">Delete</button>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<div *ngIf="!loading && assets.length === 0 && !error" class="empty-state">
+  No assets found. Click "New Asset" to create one.
+</div>
+
+<div class="pagination" *ngIf="totalPages > 1">
+  <button class="btn-secondary btn-sm" (click)="prevPage()" [disabled]="page === 0">
+    Previous
+  </button>
+  <button
+    *ngFor="let p of getPagesArray()"
+    class="btn-sm"
+    [ngClass]="p === page ? 'btn-primary' : 'btn-secondary'"
+    (click)="goToPage(p)"
+  >
+    {{ p + 1 }}
+  </button>
+  <button class="btn-secondary btn-sm" (click)="nextPage()" [disabled]="page >= totalPages - 1">
+    Next
+  </button>
+  <span class="page-info">
+    Page {{ page + 1 }} of {{ totalPages }} ({{ totalElements }} total)
+  </span>
+</div>
