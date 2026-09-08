@@ -156,6 +156,7 @@ public class AssetService {
                     || target == AssetStatus.IN_REPAIR
                     || target == AssetStatus.IN_USE;
             case IN_REPAIR -> target == AssetStatus.AVAILABLE
+                    || target == AssetStatus.IN_USE
                     || target == AssetStatus.IN_REPAIR;
             case DISPOSED -> false;
         };
