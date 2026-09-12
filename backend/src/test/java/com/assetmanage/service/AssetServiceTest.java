@@ -207,4 +207,16 @@ class AssetServiceTest {
 
         assertEquals(AssetStatus.IN_USE, updated.getStatus());
     }
+
+    @Test
+    void cr002_statusTransition_disposedToAvailable_throwsException() {
+        AssetDTO dto = newAssetDTO("SVC-CR002-001");
+        dto.setStatus(AssetStatus.DISPOSED);
+        Asset created = assetService.create(dto);
+
+        AssetDTO updateDto = newAssetDTO("SVC-CR002-001");
+        updateDto.setStatus(AssetStatus.AVAILABLE);
+
+        assertThrows(IllegalStateException.class, () -> assetService.update(created.getId(), updateDto));
+    }
 }

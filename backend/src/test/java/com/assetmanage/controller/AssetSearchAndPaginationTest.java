@@ -104,4 +104,19 @@ class AssetSearchAndPaginationTest {
                 .andExpect(jsonPath("$.accumulatedDepreciation").exists())
                 .andExpect(jsonPath("$.currentValue").exists());
     }
+
+    @Test
+    void cr001_pagination_defaultPageSizeIs20() throws Exception {
+        mockMvc.perform(get("/api/assets"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.content").exists())
+                .andExpect(jsonPath("$.totalElements").exists())
+                .andExpect(jsonPath("$.totalPages").exists());
+    }
+
+    @Test
+    void cr003_search_emptyQuery_returns400() throws Exception {
+        mockMvc.perform(get("/api/assets/search?q="))
+                .andExpect(status().isBadRequest());
+    }
 }
