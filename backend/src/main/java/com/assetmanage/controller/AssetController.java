@@ -81,11 +81,13 @@ public class AssetController {
     public ResponseEntity<Asset> assignCategory(@PathVariable Long id,
                                                  @RequestBody Map<String, Long> body) {
         Long categoryId = body.get("categoryId");
-        return ResponseEntity.ok(assetService.assignCategory(id, categoryId));
+        Asset updated = assetService.assignCategory(id, categoryId);
+        return ResponseEntity.ok(updated);
     }
 
     @GetMapping("/{id}/depreciation")
     public ResponseEntity<Map<String, Object>> depreciation(@PathVariable Long id) {
-        return ResponseEntity.ok(assetService.calculateDepreciation(id));
+        Map<String, Object> result = assetService.calculateDepreciation(id);
+        return ResponseEntity.ok(result);
     }
 }
