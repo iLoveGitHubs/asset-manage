@@ -1,0 +1,5 @@
+backend/src/
+frontend/
+frontend/node_modules/
+*.md
+.git/
