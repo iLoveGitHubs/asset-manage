@@ -37,7 +37,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(IllegalStateException.class)
     public ResponseEntity<Map<String, Object>> handleIllegalState(IllegalStateException ex) {
-        return buildResponse(HttpStatus.CONFLICT, ex.getMessage(), null);
+        return buildResponse(HttpStatus.CONFLICT, "Conflict: " + ex.getMessage(), null);
     }
 
     @ExceptionHandler(IllegalArgumentException.class)
