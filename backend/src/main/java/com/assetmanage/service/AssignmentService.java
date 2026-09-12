@@ -57,8 +57,8 @@ public class AssignmentService {
         Assignment assignment = assignmentRepository.findByAssetId(assetId).stream()
                 .filter(a -> a.getReturnDate() == null)
                 .findFirst()
-                .orElseThrow(() -> new ResourceNotFoundException(
-                        "No active assignment found for asset " + assetId));
+                .orElseThrow(() -> new IllegalStateException(
+                        "Asset " + assetId + " is not currently assigned"));
 
         assignment.setReturnDate(LocalDate.now());
 
